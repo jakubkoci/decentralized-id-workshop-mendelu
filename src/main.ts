@@ -20,7 +20,7 @@ async function main() {
       break
     }
     default: {
-      console.log('\nUnknown command\n', command)
+      if (command) console.log('\nUnknown command\n', command)
       break
     }
   }
