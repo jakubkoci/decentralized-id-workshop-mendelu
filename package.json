@@ -1,0 +1,17 @@
+{
+  "name": "decentralized-id-workshop",
+  "version": "1.0.0",
+  "main": "src/main.ts",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "main": "tsx src/main.ts"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "description": "",
+  "devDependencies": {
+    "@biomejs/biome": "1.9.4",
+    "tsx": "^4.19.2"
+  }
+}
