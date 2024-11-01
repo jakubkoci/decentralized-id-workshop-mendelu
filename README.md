@@ -29,6 +29,20 @@ You should see the following output:
 Welcome to the Decentralized Digital Identity Workshop!
 ```
 
+## Steps
+
+- Create an account ans log in at https://paradym.id/
+  - Set profile name and logo (optional)
+- Create a credential template
+- Initialize agent and
+- Implement `receive` command
+- Issue a credential from Paradym service
+- Copy & past offer link into the code and run with with `receive` command
+- Implement `present` command
+- Create a presentation template
+- Copy & past presentation link into the code and run with with `present` command
+- Check in Paradym service that presentation was verified and you received only requested attibute
+
 ## Useful Resources
 
 Framework we're using
