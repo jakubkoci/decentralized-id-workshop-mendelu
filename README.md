@@ -9,7 +9,7 @@
 ## Installation
 
 ```sh
-git clone https://github.com/animo/decentralized-id-workshop.git
+git clone git@github.com:jakubkoci/decentralized-id-workshop-mendelu.git
 cd decentralized-id-workshop
 npm install
 ```
