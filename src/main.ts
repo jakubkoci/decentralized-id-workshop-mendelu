@@ -1,6 +1,8 @@
 async function main() {
   console.log('Welcome to the Decentralized Digital Identity Workshop!')
 
+  // TODO Initialize agent
+
   const [command] = process.argv.slice(2)
 
   switch (command) {
@@ -9,12 +11,12 @@ async function main() {
       console.log('Not implemented yet')
       break
     }
-    case 'present': {
+    case 'receive': {
       // TODO
       console.log('Not implemented yet')
       break
     }
-    case 'receive': {
+    case 'present': {
       // TODO
       console.log('Not implemented yet')
       break
