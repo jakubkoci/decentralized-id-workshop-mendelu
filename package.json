@@ -13,5 +13,14 @@
   "devDependencies": {
     "@biomejs/biome": "1.9.4",
     "tsx": "^4.19.2"
+  },
+  "dependencies": {
+    "@credo-ts/askar": "^0.5.10",
+    "@credo-ts/core": "^0.5.10",
+    "@credo-ts/node": "^0.5.10",
+    "@credo-ts/openid4vc": "^0.5.10",
+    "@hyperledger/aries-askar-nodejs": "^0.2.3",
+    "@sd-jwt/crypto-nodejs": "^0.7.2",
+    "@sd-jwt/decode": "^0.7.2"
   }
 }
