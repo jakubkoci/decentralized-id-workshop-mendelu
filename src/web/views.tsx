@@ -1,6 +1,6 @@
-import React from "hono/jsx";
-import type { PropsWithChildren } from "hono/jsx";
-import type { CredentialViewObject } from "../credo";
+import React from 'hono/jsx'
+import type { PropsWithChildren } from 'hono/jsx'
+import type { CredentialViewObject } from '../credo'
 
 export function Layout(props: PropsWithChildren) {
   return (
@@ -24,7 +24,7 @@ export function Layout(props: PropsWithChildren) {
       </head>
       <body>{props.children}</body>
     </html>
-  );
+  )
 }
 
 export function App(props: { credentials: CredentialViewObject[] }) {
@@ -37,7 +37,7 @@ export function App(props: { credentials: CredentialViewObject[] }) {
         <CredentialList credentials={props.credentials} />
       </div>
     </Layout>
-  );
+  )
 }
 
 export function CredentialList(props: { credentials: CredentialViewObject[] }) {
@@ -98,9 +98,9 @@ export function CredentialList(props: { credentials: CredentialViewObject[] }) {
                 </pre>
               </div>
             </div>
-          );
+          )
         })}
       </div>
     </div>
-  );
+  )
 }
