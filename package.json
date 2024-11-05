@@ -4,7 +4,8 @@
   "main": "src/main.ts",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "cli": "tsx src/cli.ts"
+    "cli": "tsx src/cli.ts",
+    "web": "tsx src/web/main.tsx"
   },
   "keywords": [],
   "author": "",
@@ -19,8 +20,10 @@
     "@credo-ts/core": "^0.5.10",
     "@credo-ts/node": "^0.5.10",
     "@credo-ts/openid4vc": "^0.5.10",
+    "@hono/node-server": "^1.13.5",
     "@hyperledger/aries-askar-nodejs": "^0.2.3",
     "@sd-jwt/crypto-nodejs": "^0.7.2",
-    "@sd-jwt/decode": "^0.7.2"
+    "@sd-jwt/decode": "^0.7.2",
+    "hono": "^4.6.9"
   }
 }
