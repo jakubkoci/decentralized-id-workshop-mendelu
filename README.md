@@ -17,7 +17,7 @@ npm install
 ## Run
 
 ```sh
-npm run main
+npm run cli
 ```
 
 You should see the following output:
