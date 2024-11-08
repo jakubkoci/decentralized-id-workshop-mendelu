@@ -1,14 +1,17 @@
 import type {
   InitConfig,
+  Key,
   SdJwtVc,
   SdJwtVcHeader,
   SdJwtVcPayload,
 } from '@credo-ts/core'
 import {
   Agent,
+  createPeerDidDocumentFromServices,
   DidKey,
   DifPresentationExchangeService,
   KeyType,
+  PeerDidNumAlgo,
 } from '@credo-ts/core'
 import { agentDependencies } from '@credo-ts/node'
 import { AskarModule } from '@credo-ts/askar'
@@ -48,6 +51,47 @@ export async function initAgent() {
   }
 
   return agent
+}
+
+export async function createPeerDidWithNewDidKey(agent: AgentWithModules) {
+  const didKey = await createDidKey(agent)
+  console.log('Created didKey', didKey.did)
+  const didPeer = await createDidPeer(agent, didKey.key)
+  return didPeer
+}
+
+export async function createPeerDidWithExistingDidKey(agent: AgentWithModules) {
+  const dids = await agent.dids.getCreatedDids()
+  const [didRecord] = dids.filter((d) => d.getTag('method') === 'key')
+  const didKey = DidKey.fromDid(didRecord.did)
+  console.log('Reused existing didKey', didKey.did)
+  const didPeer = await createDidPeer(agent, didKey.key)
+  return didPeer
+}
+
+export async function resolveDid(agent: AgentWithModules, did: string) {
+  const didResolution = await agent.dids.resolve(did)
+  return didResolution
+}
+
+async function createDidPeer(agent: AgentWithModules, key: Key) {
+  const services = [
+    {
+      id: 'didcomm',
+      recipientKeys: [key],
+      routingKeys: [key],
+      serviceEndpoint: 'htttp://example.com',
+    },
+  ]
+  const didDocument = createPeerDidDocumentFromServices(services)
+  const did = await agent.dids.create({
+    method: 'peer',
+    didDocument,
+    options: {
+      numAlgo: PeerDidNumAlgo.ShortFormAndLongForm,
+    },
+  })
+  return did
 }
 
 export async function receiveCredential(
@@ -148,21 +192,28 @@ async function getDidKey(agent: AgentWithModules) {
   let didKey: DidKey
   const didRecords = await agent.dids.getCreatedDids()
   if (didRecords.length === 0) {
-    console.log('No DID records found, creating a new one')
-    const didResult = await agent.dids.create({
-      method: 'key',
-      options: {
-        keyType: KeyType.Ed25519,
-      },
-    })
-    if (!didResult.didState.did) {
-      throw new Error('Failed to create DID')
-    }
-    didKey = DidKey.fromDid(didResult.didState.did)
+    console.log('Found no DID records')
+    didKey = await createDidKey(agent)
   } else {
     const [didRecord] = didRecords
     didKey = DidKey.fromDid(didRecord.did)
   }
   console.log('DID key:', JSON.stringify(didKey, null, 2))
   return didKey
+}
+
+async function createDidKey(agent: AgentWithModules) {
+  console.log('Creating a new DID key')
+  const didResult = await agent.dids.create({
+    method: 'key',
+    options: {
+      keyType: KeyType.Ed25519,
+    },
+  })
+
+  if (!didResult.didState.did) {
+    throw new Error('Failed to create the DID key')
+  }
+
+  return DidKey.fromDid(didResult.didState.did)
 }
