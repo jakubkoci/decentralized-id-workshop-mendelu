@@ -1,7 +1,15 @@
+import {
+  addService,
+  createPeerDidWithExistingDidKey,
+  initAgent,
+  resolveDid,
+} from './credo'
+
 async function main() {
   console.log('Welcome to the Decentralized Digital Identity Workshop!')
 
   // TODO Initialize agent
+  const agent = await initAgent()
 
   const [command] = process.argv.slice(2)
 
@@ -17,6 +25,21 @@ async function main() {
       break
     }
     case 'present': {
+      // TODO
+      console.log('Not implemented yet')
+      break
+    }
+    case 'createDid': {
+      // TODO
+      console.log('Not implemented yet')
+      break
+    }
+    case 'resolveDid': {
+      // TODO
+      console.log('Not implemented yet')
+      break
+    }
+    case 'updateDid': {
       // TODO
       console.log('Not implemented yet')
       break

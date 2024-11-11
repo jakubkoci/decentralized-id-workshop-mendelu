@@ -1,9 +1,10 @@
-import type {
-  InitConfig,
-  Key,
-  SdJwtVc,
-  SdJwtVcHeader,
-  SdJwtVcPayload,
+import {
+  DidDocumentService,
+  type InitConfig,
+  type Key,
+  type SdJwtVc,
+  type SdJwtVcHeader,
+  type SdJwtVcPayload,
 } from '@credo-ts/core'
 import {
   Agent,
@@ -69,6 +70,25 @@ export async function createPeerDidWithExistingDidKey(agent: AgentWithModules) {
   return didPeer
 }
 
+export async function addService(agent: AgentWithModules, did: string) {
+  const didResolution = await resolveDid(agent, did)
+  const { didDocument } = didResolution
+  if (!didDocument) {
+    throw new Error(`Did ${did} does not have any didDocument`)
+  }
+  const dids = await agent.dids.getCreatedDids()
+  const [didRecord] = dids.filter((d) => d.getTag('method') === 'key')
+  const didKey = DidKey.fromDid(didRecord.did)
+  const service = didCommService(didKey.key)
+  didDocument.service = didResolution.didDocument?.service || []
+  didDocument?.service?.push(service)
+
+  // TODO this is gonan fail with `notImplemented: updating did:peer not implemented yet` reason
+  const updateResult = await agent.dids.update({ did, didDocument })
+  console.log(updateResult)
+  return updateResult
+}
+
 export async function resolveDid(agent: AgentWithModules, did: string) {
   const didResolution = await agent.dids.resolve(did)
   return didResolution
@@ -92,6 +112,19 @@ async function createDidPeer(agent: AgentWithModules, key: Key) {
     },
   })
   return did
+}
+
+function didCommService(key: Key) {
+  const service = new DidDocumentService({
+    id: 'new-didcomm',
+    type: 'DIDCommMessaging',
+    serviceEndpoint: {
+      uri: 'htttp://example.com',
+      recipientKeys: [key],
+      routingKeys: [key],
+    },
+  })
+  return service
 }
 
 export async function receiveCredential(
